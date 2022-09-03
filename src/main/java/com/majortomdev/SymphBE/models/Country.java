@@ -44,4 +44,10 @@ public class Country {
     public void setContinent(String continent) {
         this.continent = continent;
     }
+
+    @Override
+    public String toString() {
+        return "This country is "+name + ", with id: "+countryId+". Its country code is "
+                +countryCode+ " and it is in "+continent;
+    }
 }
