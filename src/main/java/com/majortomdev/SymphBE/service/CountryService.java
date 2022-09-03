@@ -14,18 +14,21 @@ public class CountryService {
         JSONObject jsonObj = new JSONObject(jsonString);
         JSONObject dataObj = jsonObj.getJSONObject("data");
 
-        System.out.println(dataObj.toString());
-
-
         dataObj.keySet().forEach( key -> {
+            if(key == "3"){
+                return; //WHO KNEW ??????????
+            }
+            JSONObject insideObj = dataObj.getJSONObject(key); //SOLUTION !!!!!!!
+            Object countryId = insideObj.get("country_id");
+            String name = (String)insideObj.get("name");
+            Object cCode = insideObj.get("country_code");
+            String countryCode;
+            if(!JSONObject.NULL.equals(cCode)){ //NOT TO MENTION THIS
+                 countryCode = (String) cCode;  //LITTLE DOOZY....NPE SAVIOUR
+            }else countryCode = "";
 
-            JSONObject insideObj = dataObj.getInt("");
-
-            String countryId = (String)dataObj.get("country_id");
-            String name = (String)dataObj.get("name");
-            String countryCode = (String)dataObj.get("country_code");
-            String continent = (String)dataObj.get("continent");
-            countries.add(new Country(Integer.parseInt(countryId),name,countryCode,continent));
+            String continent = (String)insideObj.get("continent");
+            countries.add(new Country((int)countryId,name,countryCode,continent));
         });
 
         return countries;
