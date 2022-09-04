@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CountryService {
@@ -15,7 +16,7 @@ public class CountryService {
         JSONObject dataObj = jsonObj.getJSONObject("data");
 
         dataObj.keySet().forEach( key -> {
-            if(key == "3"){
+            if(Objects.equals(key, "3")){//got a redundant obj for europe
                 return; //WHO KNEW ??????????
             }
             JSONObject insideObj = dataObj.getJSONObject(key); //SOLUTION !!!!!!!

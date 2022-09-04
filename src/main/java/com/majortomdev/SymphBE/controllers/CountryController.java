@@ -18,7 +18,7 @@ public class CountryController {
 
     @Autowired
     private CountryService countryService;
-    private String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
+    private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
 
     @GetMapping("/hello")
     public String hello () {
@@ -32,9 +32,9 @@ public class CountryController {
 
 
     @GetMapping("/soccer/countries")
-    public List<Country> getCountries() throws IOException {
-
-        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries?apikey="+apikey+"&continent=Europe");
+    public List<Country> getCountries(@RequestParam String continent) throws IOException {
+        //test for validity of continent param???
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries?apikey="+apikey+"&continent="+continent);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();
@@ -46,34 +46,14 @@ public class CountryController {
             System.out.println("Successfully hit the endpoint!!!!!");
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String dataLine;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((dataLine = in.readLine()) != null) {
                 response.append(dataLine);
             }
             in.close();
-            //List<Country> countries = countryService.getCountryData(response.toString());
-
-
-//            JSONObject jsonObj = new JSONObject(response.toString());
-//            JSONObject dataObj = jsonObj.getJSONObject("data");
-//            //jsonObj.g
-//            return dataObj.length();
-
-
-
-
-
 
             countries = countryService.getCountryData(response.toString());
             return countries;
-
-            //System.out.println("countries size is:  "+countries.size());
-            //System.out.println(response.substring(0,200));
-
-
-
-
-
 
 
 
