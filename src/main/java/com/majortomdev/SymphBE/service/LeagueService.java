@@ -1,0 +1,30 @@
+package com.majortomdev.SymphBE.service;
+
+import com.majortomdev.SymphBE.models.League;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class LeagueService {
+
+    public List<League> getLeaguesFromCountry(String leaguesJson){
+        List<League> leagues = new ArrayList<>();
+        JSONObject jsonResults = new JSONObject(leaguesJson);
+        JSONObject dataObj = jsonResults.getJSONObject("data");
+
+        dataObj.keySet().forEach( key -> {
+            JSONObject insideObj = dataObj.getJSONObject(key);
+            Object leagueId = insideObj.get("league_id");
+            Object countryId = insideObj.get("country_id");
+            String name = (String)insideObj.get("name");
+            leagues.add(new League((int)leagueId,(int)countryId,name));
+        });
+
+        return leagues;
+    }
+
+
+}

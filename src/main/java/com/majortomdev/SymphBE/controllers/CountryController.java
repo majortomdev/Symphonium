@@ -1,6 +1,7 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Country;
+import com.majortomdev.SymphBE.models.League;
 import com.majortomdev.SymphBE.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class CountryController {
 
     @Autowired
     private CountryService countryService;
-    private String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
+    private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
 
     @GetMapping("/hello")
     public String hello () {
@@ -46,7 +46,6 @@ public class CountryController {
         if(responseCode !=200){
             throw new RuntimeException("HttpResponseCode: "+responseCode);
         }else {
-            System.out.println("Successfully hit the endpoint!!!!!");
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String dataLine;
             StringBuilder response = new StringBuilder();
@@ -84,6 +83,5 @@ public class CountryController {
         }
         return country; // i can return it here or as i did above, INSIDE my else block, BETTER??
     }
-
 
 }
