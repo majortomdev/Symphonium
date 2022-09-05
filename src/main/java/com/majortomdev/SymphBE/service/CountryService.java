@@ -34,5 +34,17 @@ public class CountryService {
 
         return countries;
     }
+
+    public Country getCountryById(String jsonCountryString) {
+        JSONObject jsonCountry = new JSONObject(jsonCountryString);
+        JSONObject countryInfo = jsonCountry.getJSONObject("data");
+
+        Object countryId = countryInfo.get("country_id");
+        String name = (String)countryInfo.get("name");
+        Object cCode = countryInfo.get("country_code");
+        String continent = (String) countryInfo.get("continent");
+
+        return new Country((int)countryId,name,(String)cCode,continent);
+    }
 }
 
