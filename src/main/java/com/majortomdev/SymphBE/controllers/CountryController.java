@@ -1,7 +1,6 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Country;
-import com.majortomdev.SymphBE.models.League;
 import com.majortomdev.SymphBE.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,32 +36,17 @@ public class CountryController {
     public List<Country> getCountries(@RequestParam String continent) throws IOException {
         //test for validity of continent param???
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries?apikey="+apikey+"&continent="+continent);
-        //URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries?apikey="+apikey+"&continent=Europe");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
-        //List<Country> countries= new ArrayList<Country>();
-        int responseCode = conn.getResponseCode();
-        if(responseCode !=200){
-            throw new RuntimeException("HttpResponseCode: "+responseCode);
-        }else {
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String dataLine;
-            StringBuilder response = new StringBuilder();
-            while ((dataLine = in.readLine()) != null) {
-                response.append(dataLine);
-            }
-            in.close();
-            countries = countryService.getCountryData(response.toString());
-            return countries;
-        }
-
+        return countryService.getCountryData(urlToString(url));
     }
 
-    @GetMapping("/soccer/country")
-    public Country getCountryById(@RequestParam int id) throws IOException {
-        Country country;// = new Country();
+
+    @GetMapping("/soccer/country/{id}")
+    public Country getCountryById(@PathVariable(value = "id") int id) throws IOException {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries/"+id+"?apikey="+apikey);
+        return countryService.getCountryById(urlToString(url));
+    }
+
+    private String urlToString(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.connect();
@@ -70,7 +54,6 @@ public class CountryController {
         if(responseCode !=200){
             throw new RuntimeException("HttpResponseCode: "+responseCode);
         }else {
-            System.out.println("Successfully hit the endpoint!!!!!");
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String dataLine;
             StringBuilder response = new StringBuilder();
@@ -78,10 +61,8 @@ public class CountryController {
                 response.append(dataLine);
             }
             in.close();
-            country = countryService.getCountryById(response.toString());
-
+            return response.toString();
         }
-        return country; // i can return it here or as i did above, INSIDE my else block, BETTER??
     }
 
 }
