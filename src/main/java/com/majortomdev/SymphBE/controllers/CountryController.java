@@ -5,10 +5,7 @@ import com.majortomdev.SymphBE.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,9 @@ public class CountryController {
 
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private Util util;
+
     private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
 
     @GetMapping("/hello")
@@ -36,33 +36,15 @@ public class CountryController {
     public List<Country> getCountries(@RequestParam String continent) throws IOException {
         //test for validity of continent param???
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries?apikey="+apikey+"&continent="+continent);
-        return countryService.getCountryData(urlToString(url));
+        String countriesString = util.urlToString(url);
+        return countryService.getCountryData(countriesString);
     }
-
 
     @GetMapping("/soccer/country/{id}")
     public Country getCountryById(@PathVariable(value = "id") int id) throws IOException {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries/"+id+"?apikey="+apikey);
-        return countryService.getCountryById(urlToString(url));
-    }
-
-    private String urlToString(URL url) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.connect();
-        int responseCode = conn.getResponseCode();
-        if(responseCode !=200){
-            throw new RuntimeException("HttpResponseCode: "+responseCode);
-        }else {
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String dataLine;
-            StringBuilder response = new StringBuilder();
-            while ((dataLine = in.readLine()) != null) {
-                response.append(dataLine);
-            }
-            in.close();
-            return response.toString();
-        }
+        String countryString = util.urlToString(url);
+        return countryService.getCountryById(countryString);
     }
 
 }
