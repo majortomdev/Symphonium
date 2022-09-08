@@ -7,7 +7,7 @@ public class Team {
     String shortCode;
     String commonName;
     String logo;
-    Country country;
+    Country teamCountry;
 
     public Team(int teamId, String name, String shortCode, String commonName, String logo, Country country) {
         this.teamId = teamId;
@@ -15,7 +15,7 @@ public class Team {
         this.shortCode = shortCode;
         this.commonName = commonName;
         this.logo = logo;
-        this.country = country;
+        this.teamCountry = country;
     }
 
     public int getTeamId() {
@@ -58,11 +58,11 @@ public class Team {
         this.logo = logo;
     }
 
-    public Country getCountry() {
-        return country;
+    public Country getTeamCountry() {
+        return teamCountry;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setTeamCountry(Country teamCountry) {
+        this.teamCountry = teamCountry;
     }
 }

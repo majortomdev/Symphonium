@@ -55,4 +55,11 @@ public class CountryController {
         return countryService.getTeamsInCountry(teamsString);
     }
 
+    @GetMapping("/soccer/team/{id}")
+    public Team getTeamById(@PathVariable(value = "id") int id) throws IOException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/teams/"+id+"?apikey="+apikey);
+        String teamString = util.urlToString(url);
+        return countryService.getTeamById(teamString);
+    }
+
 }
