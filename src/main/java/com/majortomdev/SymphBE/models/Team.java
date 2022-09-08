@@ -6,13 +6,15 @@ public class Team {
     String name;
     String shortCode;
     String commonName;
+    String logo;
     Country country;
 
-    public Team(int teamId, String name, String shortCode, String commonName, Country country) {
+    public Team(int teamId, String name, String shortCode, String commonName, String logo, Country country) {
         this.teamId = teamId;
         this.name = name;
         this.shortCode = shortCode;
         this.commonName = commonName;
+        this.logo = logo;
         this.country = country;
     }
 
@@ -46,6 +48,14 @@ public class Team {
 
     public void setCommonName(String commonName) {
         this.commonName = commonName;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public Country getCountry() {

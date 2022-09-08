@@ -1,6 +1,7 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Country;
+import com.majortomdev.SymphBE.models.Team;
 import com.majortomdev.SymphBE.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,13 @@ public class CountryController {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries/"+id+"?apikey="+apikey);
         String countryString = util.urlToString(url);
         return countryService.getCountryById(countryString);
+    }
+
+    @GetMapping("/soccer/teams")
+    public List<Team> getTeams(@RequestParam int countryId) throws IOException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/teams?apikey="+apikey+"&country_id="+countryId);
+        String teamsString = util.urlToString(url);
+        return countryService.getTeamsInCountry(teamsString);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.majortomdev.SymphBE.service;
 
 import com.majortomdev.SymphBE.models.Country;
+import com.majortomdev.SymphBE.models.Team;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,36 @@ public class CountryService {
         String continent = (String) countryInfo.get("continent");
 
         return new Country((int)countryId,name,(String)cCode,continent);
+    }
+
+    public List<Team> getTeamsInCountry(String jsonTeamsString){
+        List<Team> teams = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonTeamsString);
+        JSONArray teamArray = jsonObj.getJSONArray("data");
+
+        for(int i=0; i<teamArray.length(); i++){
+            JSONObject jsonTeam = teamArray.getJSONObject(i);
+            Object teamId = jsonTeam.get("team_id");
+            String name = (String)jsonTeam.get("name");
+            String shortCode = (String)jsonTeam.get("short_code");
+            String logo = (String)jsonTeam.get("logo");
+            Object common = jsonTeam.get("common_name");
+            String commonName;
+            if(!JSONObject.NULL.equals(common)){
+                commonName = (String) common;
+            }else commonName = "";
+
+            JSONObject countryInner = jsonTeam.getJSONObject("country");
+            Object countryId = countryInner.get("country_id");
+            String name2 = (String)countryInner.get("name");
+            Object cCode = countryInner.get("country_code");
+            String continent = (String) countryInner.get("continent");
+
+            Country country = new Country((int)countryId,name2,(String)cCode,continent);
+            teams.add(new Team((int)teamId,name,shortCode,commonName,logo,country));
+        }
+
+        return teams;
     }
 }
 
