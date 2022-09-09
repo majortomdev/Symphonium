@@ -3,11 +3,11 @@ package com.majortomdev.SymphBE.models;
 public class Team {
 
     int teamId;
-    String name;
-    String shortCode;
-    String commonName;
-    String logo;
-    Country teamCountry;
+    private String name;
+    private String shortCode;
+    private String commonName;
+    private String logo;
+    private Country teamCountry;
 
     public Team(int teamId, String name, String shortCode, String commonName, String logo, Country country) {
         this.teamId = teamId;

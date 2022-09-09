@@ -1,6 +1,7 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Country;
+import com.majortomdev.SymphBE.models.Season;
 import com.majortomdev.SymphBE.models.Team;
 import com.majortomdev.SymphBE.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,8 @@ public class CountryController {
 
     @Autowired
     private CountryService countryService;
+    @Autowired
+    private SeasonsService seasonsService;
     @Autowired
     private Util util;
 
@@ -60,6 +64,13 @@ public class CountryController {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/teams/"+id+"?apikey="+apikey);
         String teamString = util.urlToString(url);
         return countryService.getTeamById(teamString);
+    }
+
+    @GetMapping("/soccer/seasons")
+    public List<Season> getSeasons(@RequestParam int leagueId) throws IOException, ParseException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/seasons?apikey="+apikey+"&league_id="+leagueId);
+        String seasonsString = util.urlToString(url);
+        return seasonsService.getSeasonsForLeague(seasonsString);
     }
 
 }

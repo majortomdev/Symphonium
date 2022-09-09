@@ -2,9 +2,9 @@ package com.majortomdev.SymphBE.models;
 
 public class League {
 
-    public int leagueId;
-    public int countryId;
-    public String name;
+    private int leagueId;
+    private int countryId;
+    private String name;
 
     public League(int leagueId, int countryId, String name) {
         this.leagueId = leagueId;

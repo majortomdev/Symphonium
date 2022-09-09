@@ -1,10 +1,10 @@
 package com.majortomdev.SymphBE.models;
 
 public class Country {
-    public int countryId;
-    public String name;
-    public String countryCode;
-    public String continent;
+    private int countryId;
+    private String name;
+    private String countryCode;
+    private String continent;
 
     public Country(int countryId, String name, String countryCode, String continent) {
         this.countryId = countryId;
