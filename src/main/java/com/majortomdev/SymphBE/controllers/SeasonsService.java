@@ -19,31 +19,40 @@ public class SeasonsService {
         List<Season> seasons = new ArrayList<>();
         JSONObject jsonObj = new JSONObject(jsonSeasonsString);
         JSONArray seasonsArray = jsonObj.getJSONArray("data");
-
         for (int i = 0; i < seasonsArray.length(); i++) {
             JSONObject jsonSeason = seasonsArray.getJSONObject(i);
-            Object seasonId = jsonSeason.get("season_id");
-            String name = (String) jsonSeason.get("name");
-            Object isCurr = jsonSeason.get("is_current");
-            boolean isCurrent = false;
-            if ((int) isCurr == 1) {
-                isCurrent = true;
-            }
-            Object countryId = jsonSeason.get("country_id");
-            Object leagueId = jsonSeason.get("league_id");
-            Date startDate = createDateObj((String) jsonSeason.get("start_date"));
-            Date endDate = createDateObj((String) jsonSeason.get("end_date"));
-
-            seasons.add(new Season((int)seasonId, name, isCurrent,(int)countryId,
-                    (int)leagueId,startDate,endDate));
-
+            seasons.add(createSeasonInstance(jsonSeason));
         }
         return seasons;
+    }
+
+    public Season getSeasonById(String jsonSeason) throws ParseException {
+        JSONObject jsonOb = new JSONObject(jsonSeason);
+        JSONObject seasonInfo = jsonOb.getJSONObject("data");
+        return createSeasonInstance(seasonInfo);
     }
 
     private Date createDateObj(String strDate) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.parse(strDate);
+    }
+
+    private Season createSeasonInstance(JSONObject jsonSeason) throws ParseException {
+        Object seasonId = jsonSeason.get("season_id");
+        String name = (String) jsonSeason.get("name");
+        Object isCurr = jsonSeason.get("is_current");
+        boolean isCurrent = false;
+        if ((int) isCurr == 1) {
+            isCurrent = true;
+        }
+        Object countryId = jsonSeason.get("country_id");
+        Object leagueId = jsonSeason.get("league_id");
+        Date startDate = createDateObj((String) jsonSeason.get("start_date"));
+        Date endDate = createDateObj((String) jsonSeason.get("end_date"));
+
+        return new Season((int)seasonId, name, isCurrent,(int)countryId,
+                (int)leagueId,startDate,endDate);
+
     }
 
 }

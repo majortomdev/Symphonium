@@ -53,27 +53,9 @@ public class CountryService {
         List<Team> teams = new ArrayList<>();
         JSONObject jsonObj = new JSONObject(jsonTeamsString);
         JSONArray teamArray = jsonObj.getJSONArray("data");
-
         for(int i=0; i<teamArray.length(); i++){
             JSONObject jsonTeam = teamArray.getJSONObject(i);
-            Object teamId = jsonTeam.get("team_id");
-            String name = (String)jsonTeam.get("name");
-            String shortCode = (String)jsonTeam.get("short_code");
-            String logo = (String)jsonTeam.get("logo");
-            Object common = jsonTeam.get("common_name");
-            String commonName;
-            if(!JSONObject.NULL.equals(common)){
-                commonName = (String) common;
-            }else commonName = "";
-
-            JSONObject countryInner = jsonTeam.getJSONObject("country");
-            Object countryId = countryInner.get("country_id");
-            String name2 = (String)countryInner.get("name");
-            Object cCode = countryInner.get("country_code");
-            String continent = (String) countryInner.get("continent");
-
-            Country country = new Country((int)countryId,name2,(String)cCode,continent);
-            teams.add(new Team((int)teamId,name,shortCode,commonName,logo,country));
+            teams.add(createTeamInstance(jsonTeam));
         }
 
         return teams;
@@ -82,26 +64,28 @@ public class CountryService {
     public Team getTeamById(String jsonTeamString) {
         JSONObject jsonObject = new JSONObject(jsonTeamString);
         JSONObject teamJson = jsonObject.getJSONObject("data");
-        Object teamId = teamJson.get("team_id");
-        String name = (String)teamJson.get("name");
-        String shortCode = (String)teamJson.get("short_code");
-        String logo = (String)teamJson.get("logo");
-        Object common = teamJson.get("common_name");
+        return createTeamInstance(teamJson);
+    }
+
+    private Team createTeamInstance(JSONObject teamInJson){
+        Object teamId = teamInJson.get("team_id");
+        String name = (String)teamInJson.get("name");
+        String shortCode = (String)teamInJson.get("short_code");
+        String logo = (String)teamInJson.get("logo");
+        Object common = teamInJson.get("common_name");
         String commonName;
         if(!JSONObject.NULL.equals(common)){
             commonName = (String) common;
         }else commonName = "";
 
-        JSONObject countryInner = teamJson.getJSONObject("country");
+        JSONObject countryInner = teamInJson.getJSONObject("country");
         Object countryId = countryInner.get("country_id");
         String name2 = (String)countryInner.get("name");
         Object cCode = countryInner.get("country_code");
         String continent = (String) countryInner.get("continent");
         Country country = new Country((int)countryId,name2,(String)cCode,continent);
 
-
-        Team team = new Team((int)teamId,name,shortCode,commonName,logo,country);
-        return team;
+        return new Team((int)teamId,name,shortCode,commonName,logo,country);
     }
 }
 

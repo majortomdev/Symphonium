@@ -73,4 +73,11 @@ public class CountryController {
         return seasonsService.getSeasonsForLeague(seasonsString);
     }
 
+    @GetMapping("/soccer/season/{id}")
+    public Season getSeasonById(@PathVariable(value = "id") int id) throws IOException, ParseException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/seasons/"+id+"?apikey="+apikey);
+        String seasonString = util.urlToString(url);
+        return seasonsService.getSeasonById(seasonString);
+    }
+
 }
