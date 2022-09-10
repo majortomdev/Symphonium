@@ -18,20 +18,12 @@ public class CountryService {
         JSONObject dataObj = jsonObj.getJSONObject("data");
 
         dataObj.keySet().forEach( key -> {
-            if(Objects.equals(key, "3")){//got a redundant obj for europe
-                return; //WHO KNEW ??????????
+            if(Objects.equals(key, "3")){
+                return;
             }
-            JSONObject insideObj = dataObj.getJSONObject(key); //SOLUTION !!!!!!!
-            Object countryId = insideObj.get("country_id");
-            String name = (String)insideObj.get("name");
-            Object cCode = insideObj.get("country_code");
-            String countryCode;
-            if(!JSONObject.NULL.equals(cCode)){ //NOT TO MENTION THIS
-                 countryCode = (String) cCode;  //LITTLE DOOZY....NPE SAVIOUR
-            }else countryCode = "";
+            JSONObject insideObj = dataObj.getJSONObject(key);
+            countries.add(createCountryInstance(insideObj));
 
-            String continent = (String)insideObj.get("continent");
-            countries.add(new Country((int)countryId,name,countryCode,continent));
         });
 
         return countries;
@@ -39,14 +31,8 @@ public class CountryService {
 
     public Country getCountryById(String jsonCountryString) {
         JSONObject jsonCountry = new JSONObject(jsonCountryString);
-        JSONObject countryInfo = jsonCountry.getJSONObject("data");
-
-        Object countryId = countryInfo.get("country_id");
-        String name = (String)countryInfo.get("name");
-        Object cCode = countryInfo.get("country_code");
-        String continent = (String) countryInfo.get("continent");
-
-        return new Country((int)countryId,name,(String)cCode,continent);
+        JSONObject countryJsonObj = jsonCountry.getJSONObject("data");
+        return createCountryInstance(countryJsonObj);
     }
 
     public List<Team> getTeamsInCountry(String jsonTeamsString){
@@ -79,13 +65,21 @@ public class CountryService {
         }else commonName = "";
 
         JSONObject countryInner = teamInJson.getJSONObject("country");
-        Object countryId = countryInner.get("country_id");
-        String name2 = (String)countryInner.get("name");
-        Object cCode = countryInner.get("country_code");
-        String continent = (String) countryInner.get("continent");
-        Country country = new Country((int)countryId,name2,(String)cCode,continent);
-
+        Country country = createCountryInstance(countryInner);
         return new Team((int)teamId,name,shortCode,commonName,logo,country);
+    }
+
+    public Country createCountryInstance(JSONObject jsonCountry){
+        Object countryId = jsonCountry.get("country_id");
+        String name = (String)jsonCountry.get("name");
+        Object cCode = jsonCountry.get("country_code");
+        String countryCode;
+        if(!JSONObject.NULL.equals(cCode)){
+            countryCode = (String) cCode;
+        }else countryCode = "";
+
+        String continent = (String) jsonCountry.get("continent");
+        return new Country((int)countryId,name,countryCode,continent);
     }
 }
 

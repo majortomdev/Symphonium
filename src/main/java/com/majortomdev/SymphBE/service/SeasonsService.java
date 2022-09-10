@@ -1,19 +1,22 @@
-package com.majortomdev.SymphBE.controllers;
+package com.majortomdev.SymphBE.service;
 
 import com.majortomdev.SymphBE.models.Season;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class SeasonsService {
+
+    @Autowired
+    private Util util;
 
     public List<Season> getSeasonsForLeague(String jsonSeasonsString) throws ParseException {
         List<Season> seasons = new ArrayList<>();
@@ -32,11 +35,6 @@ public class SeasonsService {
         return createSeasonInstance(seasonInfo);
     }
 
-    private Date createDateObj(String strDate) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return simpleDateFormat.parse(strDate);
-    }
-
     private Season createSeasonInstance(JSONObject jsonSeason) throws ParseException {
         Object seasonId = jsonSeason.get("season_id");
         String name = (String) jsonSeason.get("name");
@@ -47,8 +45,9 @@ public class SeasonsService {
         }
         Object countryId = jsonSeason.get("country_id");
         Object leagueId = jsonSeason.get("league_id");
-        Date startDate = createDateObj((String) jsonSeason.get("start_date"));
-        Date endDate = createDateObj((String) jsonSeason.get("end_date"));
+
+        Date startDate = util.createShortDateObjFromString((String) jsonSeason.get("start_date"));
+        Date endDate = util.createShortDateObjFromString((String) jsonSeason.get("end_date"));
 
         return new Season((int)seasonId, name, isCurrent,(int)countryId,
                 (int)leagueId,startDate,endDate);

@@ -1,4 +1,4 @@
-package com.majortomdev.SymphBE.controllers;
+package com.majortomdev.SymphBE.service;
 
 import org.springframework.stereotype.Service;
 
@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Service
 public class Util {
 
@@ -27,5 +31,10 @@ public class Util {
             in.close();
             return response.toString();
         }
+    }
+
+    public Date createShortDateObjFromString(String strDate) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.parse(strDate);
     }
 }

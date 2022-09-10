@@ -1,53 +1,101 @@
-//package com.majortomdev.SymphBE.models;
-//
-//import javax.persistence.Entity;
-//import javax.persistence.Table;
-//
-//@Entity
-//@Table(name = "players")
-//public class Player {
-//    private long id;
-//    private String playerName;
-//    private Position position;
-//    private double value;
-//
-//    public Player() {
-//
-//    }
-//
-//    enum Position {
-//        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
-//    }
-//
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//
-//    public String getPlayerName() {
-//        return playerName;
-//    }
-//
-//    public void setPlayerName(String playerName) {
-//        this.playerName = playerName;
-//    }
-//
-//    public Position getPosition() {
-//        return position;
-//    }
-//
-//    public void setPosition(Position position) {
-//        this.position = position;
-//    }
-//
-//    public double getValue() {
-//        return value;
-//    }
-//
-//    public void setValue(double value) {
-//        this.value = value;
-//    }
-//}
+package com.majortomdev.SymphBE.models;
+
+import java.util.Date;
+
+public class Player {
+    private int playerId;
+    private String firstName;
+    private String lastName;
+    private Date birthday;
+    private int age;
+    private int height;
+    private int weight;
+    private String image;
+    Country countryPlaysIn;
+
+    public Player(int playerId, String firstName, String lastName, Date birthday,
+                  int age, int height, int weight, String img, Country playsIn) {
+        this.playerId = playerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.age = age;
+        this.height = height;
+        this.weight = weight;
+        this.image = img;
+        this.countryPlaysIn = playsIn;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Country getCountryPlaysIn() {
+        return countryPlaysIn;
+    }
+
+    public void setCountryPlaysIn(Country countryPlaysIn) {
+        this.countryPlaysIn = countryPlaysIn;
+    }
+}
+
