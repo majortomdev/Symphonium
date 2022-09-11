@@ -68,18 +68,4 @@ public class CountryController {
         return countryService.getTeamById(teamString);
     }
 
-    @GetMapping("/soccer/seasons")
-    public List<Season> getSeasons(@RequestParam int leagueId) throws IOException, ParseException {
-        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/seasons?apikey="+apikey+"&league_id="+leagueId);
-        String seasonsString = util.urlToString(url);
-        return seasonsService.getSeasonsForLeague(seasonsString);
-    }
-
-    @GetMapping("/soccer/season/{id}")
-    public Season getSeasonById(@PathVariable(value = "id") int id) throws IOException, ParseException {
-        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/seasons/"+id+"?apikey="+apikey);
-        String seasonString = util.urlToString(url);
-        return seasonsService.getSeasonById(seasonString);
-    }
-
 }
