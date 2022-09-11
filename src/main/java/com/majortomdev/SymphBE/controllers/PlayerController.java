@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class PlayerController {
@@ -24,9 +25,13 @@ public class PlayerController {
     private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
 
     @GetMapping("/soccer/players")
-    public List<Player> getPlayersByCountry(@RequestParam int countryId) throws IOException, ParseException {
+    public List<Player> getPlayersByCountry(@RequestParam int countryId,
+                                            @RequestParam(required = false) Integer minAge,
+                                            @RequestParam(required = false) Integer maxAge) throws IOException, ParseException {
+        if(maxAge == null) maxAge = 55;//REQUIRED=FALSE was the ticket!!!!
+        if(minAge == null) minAge = 15;// ..WITH these safeguards to rotect the params before they are called
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/players?apikey="+apikey+
-                "&country_id="+countryId+"&min_age=15&max_age=55");//MAX_age. MIN_age are optional!!!!
+                "&country_id="+countryId+"&min_age="+minAge+"&max_age="+maxAge);//MAX_age. MIN_age are optional!!!!
         String playersAsString = util.urlToString(url);
         return playerService.getPlayersByCountry(playersAsString);
     }
