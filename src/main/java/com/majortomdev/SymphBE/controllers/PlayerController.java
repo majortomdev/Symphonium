@@ -5,13 +5,13 @@ import com.majortomdev.SymphBE.service.PlayerService;
 import com.majortomdev.SymphBE.service.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class PlayerController {
@@ -34,6 +34,13 @@ public class PlayerController {
                 "&country_id="+countryId+"&min_age="+minAge+"&max_age="+maxAge);//MAX_age. MIN_age are optional!!!!
         String playersAsString = util.urlToString(url);
         return playerService.getPlayersByCountry(playersAsString);
+    }
+
+    @GetMapping("/soccer/players/{id}")
+    public Player getPlayerById(@PathVariable(value = "id") int id) throws IOException, ParseException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/players/"+id+"?apikey="+apikey);
+        String playerString = util.urlToString(url);
+        return playerService.getPlayerById(playerString);
     }
 
 

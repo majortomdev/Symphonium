@@ -32,6 +32,12 @@ public class PlayerService {
         return players;
     }
 
+    public Player getPlayerById(String jsonPlayerString) throws ParseException {
+        JSONObject jsonObject = new JSONObject(jsonPlayerString);
+        JSONObject jsonPlayer = jsonObject.getJSONObject("data");
+        return createPlayerInstance(jsonPlayer);
+    }
+
     private Player createPlayerInstance(JSONObject jsonPlayer) throws ParseException {
         Object playerId = jsonPlayer.get("player_id");
         String firstName = (String)jsonPlayer.get("firstname");
