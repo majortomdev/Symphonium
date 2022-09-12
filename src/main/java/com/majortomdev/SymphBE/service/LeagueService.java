@@ -1,6 +1,7 @@
 package com.majortomdev.SymphBE.service;
 
 import com.majortomdev.SymphBE.models.League;
+import com.majortomdev.SymphBE.models.Standing;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,5 @@ public class LeagueService {
 
         return new League((int)leagueId,(int)countryId,name);
     }
-
 
 }

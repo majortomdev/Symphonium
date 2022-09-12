@@ -2,6 +2,7 @@ package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.League;
 import com.majortomdev.SymphBE.models.Season;
+import com.majortomdev.SymphBE.models.Standing;
 import com.majortomdev.SymphBE.service.LeagueService;
 import com.majortomdev.SymphBE.service.SeasonsService;
 import com.majortomdev.SymphBE.service.Util;
@@ -59,6 +60,13 @@ public class LeagueController {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/seasons/"+id+"?apikey="+apikey);
         String seasonString = util.urlToString(url);
         return seasonsService.getSeasonById(seasonString);
+    }
+
+    @GetMapping("/soccer/standings")
+    public List<Standing> getLeagueStandingsForSeason(@RequestParam int seasonId) throws IOException{
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/standings?apikey="+apikey+"&season_id="+seasonId);
+        String seasonsStandings = util.urlToString(url);
+        return seasonsService.getStandingsForSeason(seasonsStandings);
     }
 
 }
