@@ -79,7 +79,7 @@ public class SeasonsService {
             result = (String) res;
         }else result = "";
 
-        Map<String,SeasonStats> statsForSeason = new HashMap<>();
+        Map<String,SeasonStats> statsForSeason = new LinkedHashMap<>();
         JSONObject overall = jsonStanding.getJSONObject("overall");
         JSONObject home = jsonStanding.getJSONObject("home");
         JSONObject away = jsonStanding.getJSONObject("away");
