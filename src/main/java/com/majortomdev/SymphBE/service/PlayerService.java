@@ -27,7 +27,7 @@ public class PlayerService {
         JSONArray playersArray = jsonObj.getJSONArray("data");
         for (int i = 0; i < playersArray.length(); i++) {
             JSONObject jsonPlayer = playersArray.getJSONObject(i);
-            players.add(createPlayerInstance(jsonPlayer));
+            players.add(createPlayerInst(jsonPlayer));
         }
         return players;
     }
@@ -35,10 +35,10 @@ public class PlayerService {
     public Player getPlayerById(String jsonPlayerString) throws ParseException {
         JSONObject jsonObject = new JSONObject(jsonPlayerString);
         JSONObject jsonPlayer = jsonObject.getJSONObject("data");
-        return createPlayerInstance(jsonPlayer);
+        return createPlayerInst(jsonPlayer);
     }
 
-    private Player createPlayerInstance(JSONObject jsonPlayer) throws ParseException {
+    private Player createPlayerInst(JSONObject jsonPlayer) throws ParseException {
         Object playerId = jsonPlayer.get("player_id");
         String firstName = (String)jsonPlayer.get("firstname");
         String lastName = (String)jsonPlayer.get("lastname");
@@ -65,7 +65,7 @@ public class PlayerService {
         }else image = "";
 
         JSONObject countryOfPlayer = jsonPlayer.getJSONObject("country");
-        Country country = countryService.createCountryInstance(countryOfPlayer);
+        Country country = countryService.createCountryInst(countryOfPlayer);
 
         return new Player((int)playerId,firstName,lastName,birthday,(int)age,height,
                 weight, image,country);

@@ -22,7 +22,7 @@ public class CountryService {
                 return;
             }
             JSONObject insideObj = dataObj.getJSONObject(key);
-            countries.add(createCountryInstance(insideObj));
+            countries.add(createCountryInst(insideObj));
 
         });
 
@@ -32,7 +32,7 @@ public class CountryService {
     public Country getCountryById(String jsonCountryString) {
         JSONObject jsonCountry = new JSONObject(jsonCountryString);
         JSONObject countryJsonObj = jsonCountry.getJSONObject("data");
-        return createCountryInstance(countryJsonObj);
+        return createCountryInst(countryJsonObj);
     }
 
     public List<Team> getTeamsInCountry(String jsonTeamsString){
@@ -41,7 +41,7 @@ public class CountryService {
         JSONArray teamArray = jsonObj.getJSONArray("data");
         for(int i=0; i<teamArray.length(); i++){
             JSONObject jsonTeam = teamArray.getJSONObject(i);
-            teams.add(createTeamInstance(jsonTeam));
+            teams.add(createTeamInst(jsonTeam));
         }
 
         return teams;
@@ -50,10 +50,10 @@ public class CountryService {
     public Team getTeamById(String jsonTeamString) {
         JSONObject jsonObject = new JSONObject(jsonTeamString);
         JSONObject teamJson = jsonObject.getJSONObject("data");
-        return createTeamInstance(teamJson);
+        return createTeamInst(teamJson);
     }
 
-    private Team createTeamInstance(JSONObject teamInJson){
+    private Team createTeamInst(JSONObject teamInJson){
         Object teamId = teamInJson.get("team_id");
         String name = (String)teamInJson.get("name");
         String shortCode = (String)teamInJson.get("short_code");
@@ -65,11 +65,11 @@ public class CountryService {
         }else commonName = "";
 
         JSONObject countryInner = teamInJson.getJSONObject("country");
-        Country country = createCountryInstance(countryInner);
+        Country country = createCountryInst(countryInner);
         return new Team((int)teamId,name,shortCode,commonName,logo,country);
     }
 
-    public Country createCountryInstance(JSONObject jsonCountry){
+    public Country createCountryInst(JSONObject jsonCountry){
         Object countryId = jsonCountry.get("country_id");
         String name = (String)jsonCountry.get("name");
         Object cCode = jsonCountry.get("country_code");

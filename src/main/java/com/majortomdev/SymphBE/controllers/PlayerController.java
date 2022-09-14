@@ -1,6 +1,8 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Player;
+import com.majortomdev.SymphBE.models.PlayerSeasonGoals;
+import com.majortomdev.SymphBE.service.GoalsService;
 import com.majortomdev.SymphBE.service.PlayerService;
 import com.majortomdev.SymphBE.service.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class PlayerController {
 
     @Autowired
     private PlayerService playerService;
+    @Autowired
+    private GoalsService goalsService;
     @Autowired
     private Util util;
 
@@ -43,5 +47,11 @@ public class PlayerController {
         return playerService.getPlayerById(playerString);
     }
 
+    @GetMapping("/soccer/topscorers")
+    public List<PlayerSeasonGoals> getPlayerGoalsScoredForSeason(@RequestParam int seasonId) throws IOException{
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey="+apikey+"&season_id="+seasonId);
+        String goalsScoredString = util.urlToString(url);
+        return goalsService.getSeasonGoals(goalsScoredString);
+    }
 
 }
