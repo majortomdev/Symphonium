@@ -1,8 +1,8 @@
 package com.majortomdev.SymphBE.models;
 
-public class PlayerSeasonGoals {
+public class PlayerSsnGoals {
 
-    private int leagueRanking;
+    private int rank;
     private int playerId;
     private int teamId;
     private int leagueId;
@@ -14,9 +14,9 @@ public class PlayerSeasonGoals {
     private int goalsHome;
     private int goalsAway;
 
-    public PlayerSeasonGoals(int leagueRanking, int playerId, int teamId, int leagueId, int seasonId,
-                             int matchesPlayed, int minutesPlayed, int sustitutedIn, int goalsHome, int goalsAway) {
-        this.leagueRanking = leagueRanking;
+    public PlayerSsnGoals(int ranking, int playerId, int teamId, int leagueId, int seasonId,
+                          int matchesPlayed, int minutesPlayed, int sustitutedIn, int goalsHome, int goalsAway) {
+        this.rank = ranking;
         this.playerId = playerId;
         this.teamId = teamId;
         this.leagueId = leagueId;
@@ -28,16 +28,16 @@ public class PlayerSeasonGoals {
         this.goalsAway = goalsAway;
     }
 
-    public int getGoalsScored() {
+    public int getGoalsOverall() {
         return goalsHome + goalsAway;
     }
 
-    public int getLeagueRanking() {
-        return leagueRanking;
+    public int getRank() {
+        return rank;
     }
 
-    public void setLeagueRanking(int leagueRanking) {
-        this.leagueRanking = leagueRanking;
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 
     public int getPlayerId() {
