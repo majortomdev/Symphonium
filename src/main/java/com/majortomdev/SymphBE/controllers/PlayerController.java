@@ -1,7 +1,7 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Player;
-import com.majortomdev.SymphBE.models.PlayerSeasonGoals;
+import com.majortomdev.SymphBE.models.PlrScoreRecord;
 import com.majortomdev.SymphBE.service.GoalsService;
 import com.majortomdev.SymphBE.service.PlayerService;
 import com.majortomdev.SymphBE.service.Util;
@@ -48,7 +48,7 @@ public class PlayerController {
     }
 
     @GetMapping("/soccer/topscorers")
-    public List<PlayerSeasonGoals> getPlayerGoalsScoredForSeason(@RequestParam int seasonId) throws IOException{
+    public List<PlrScoreRecord> getPlayerGoalsScoredForSeason(@RequestParam int seasonId) throws IOException{
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey="+apikey+"&season_id="+seasonId);
         String goalsScoredString = util.urlToString(url);
         return goalsService.getSeasonGoals(goalsScoredString);

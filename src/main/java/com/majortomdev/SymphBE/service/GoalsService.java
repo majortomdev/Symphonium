@@ -1,6 +1,6 @@
 package com.majortomdev.SymphBE.service;
 
-import com.majortomdev.SymphBE.models.PlayerSeasonGoals;
+import com.majortomdev.SymphBE.models.PlrScoreRecord;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 public class GoalsService {
 
-    public List<PlayerSeasonGoals> getSeasonGoals(String jsonSeasonGoals){
-        List<PlayerSeasonGoals> players = new ArrayList<>();
+    public List<PlrScoreRecord> getSeasonGoals(String jsonSeasonGoals){
+        List<PlrScoreRecord> players = new ArrayList<>();
         JSONObject jsonObj = new JSONObject(jsonSeasonGoals);
         JSONArray goalsArray = jsonObj.getJSONArray("data");
 
@@ -23,7 +23,7 @@ public class GoalsService {
         return players;
     }
 
-    private PlayerSeasonGoals createPlayerSeasonGoalsInst(JSONObject goalsScoredObj){
+    private PlrScoreRecord createPlayerSeasonGoalsInst(JSONObject goalsScoredObj){
             Object ranking = goalsScoredObj.get("pos");
             JSONObject innerPlayer = goalsScoredObj.getJSONObject("player");
             Object playerId = innerPlayer.get("player_id");
@@ -42,7 +42,7 @@ public class GoalsService {
             Object goalsHome = innerGoals.get("home");
             Object goalsAway = innerGoals.get("away");
 
-    return new PlayerSeasonGoals((int) ranking, (int) playerId, (int) teamId, (int) leagueId, (int) seasonId,
+    return new PlrScoreRecord((int) ranking, (int) playerId, (int) teamId, (int) leagueId, (int) seasonId,
             (int) matchesPlayed, (int) minutesPlayed, substitutedIn, (int) goalsHome, (int) goalsAway);
     }
 }

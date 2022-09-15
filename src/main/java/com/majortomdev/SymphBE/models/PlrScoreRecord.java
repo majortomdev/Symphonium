@@ -1,6 +1,6 @@
 package com.majortomdev.SymphBE.models;
 
-public class PlayerSsnGoals {
+public class PlrScoreRecord {
 
     private int rank;
     private int playerId;
@@ -10,12 +10,12 @@ public class PlayerSsnGoals {
     private int matchesPlayed;
 
     private int minutesPlayed;
-    private int sustitutedIn;
+    private int substitutedIn;
     private int goalsHome;
     private int goalsAway;
 
-    public PlayerSsnGoals(int ranking, int playerId, int teamId, int leagueId, int seasonId,
-                          int matchesPlayed, int minutesPlayed, int sustitutedIn, int goalsHome, int goalsAway) {
+    public PlrScoreRecord(int ranking, int playerId, int teamId, int leagueId, int seasonId,
+                          int matchesPlayed, int minutesPlayed, int substitutedIn, int goalsHome, int goalsAway) {
         this.rank = ranking;
         this.playerId = playerId;
         this.teamId = teamId;
@@ -23,7 +23,7 @@ public class PlayerSsnGoals {
         this.seasonId = seasonId;
         this.matchesPlayed = matchesPlayed;
         this.minutesPlayed = minutesPlayed;
-        this.sustitutedIn = sustitutedIn;
+        this.substitutedIn = substitutedIn;
         this.goalsHome = goalsHome;
         this.goalsAway = goalsAway;
     }
@@ -88,12 +88,12 @@ public class PlayerSsnGoals {
         this.minutesPlayed = minutesPlayed;
     }
 
-    public int getSustitutedIn() {
-        return sustitutedIn;
+    public int getSubstitutedIn() {
+        return substitutedIn;
     }
 
-    public void setSustitutedIn(int sustitutedIn) {
-        this.sustitutedIn = sustitutedIn;
+    public void setSubstitutedIn(int substitutedIn) {
+        this.substitutedIn = substitutedIn;
     }
 
     public int getGoalsHome() {

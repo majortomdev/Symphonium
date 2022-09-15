@@ -2,6 +2,7 @@ package com.majortomdev.SymphBE.service;
 
 import com.majortomdev.SymphBE.models.Country;
 import com.majortomdev.SymphBE.models.Team;
+import com.majortomdev.SymphBE.models.Venue;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,38 @@ public class CountryService {
 
         String continent = (String) jsonCountry.get("continent");
         return new Country((int)countryId,name,countryCode,continent);
+    }
+
+    public List<Venue> getVenuesByCountry(String jsonVenuesString){
+        List<Venue> venues = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonVenuesString);
+        JSONArray venuesArray = jsonObj.getJSONArray("data");
+
+        for (int i=0; i<venuesArray.length(); i++){
+            JSONObject venueInfo = venuesArray.getJSONObject(i);
+            venues.add(createVenueInst(venueInfo));
+        }
+        return venues;
+    }
+
+    public Venue getVenueById(String venueInfo){//the countryid was inside a nested json country obj....
+        JSONObject jsonObject = new JSONObject(venueInfo);//so repetition necessary....
+        JSONObject venueJson = jsonObject.getJSONObject("data");
+        JSONObject innerCountryObj = venueJson.getJSONObject("country");
+        Object venueId = venueJson.get("venue_id");
+        String name = (String)venueJson.get("name");
+        Object capacity = venueJson.get("capacity");
+        String city = (String)venueJson.get("city");
+        Object countryId = innerCountryObj.get("country_id");
+        return new Venue((int)venueId,name,(int)capacity,city,(int) countryId);
+    }
+    private Venue createVenueInst(JSONObject venueJson){
+        Object venueId = venueJson.get("venue_id");
+        String name = (String)venueJson.get("name");
+        Object capacity = venueJson.get("capacity");
+        String city = (String)venueJson.get("city");
+        Object countryId = venueJson.get("country_id");
+        return new Venue((int)venueId,name,(int)capacity,city,(int) countryId);
     }
 }
 
