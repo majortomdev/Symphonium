@@ -1,7 +1,6 @@
 package com.majortomdev.SymphBE.controllers;
 
 import com.majortomdev.SymphBE.models.Country;
-import com.majortomdev.SymphBE.models.Season;
 import com.majortomdev.SymphBE.models.Team;
 import com.majortomdev.SymphBE.models.Venue;
 import com.majortomdev.SymphBE.service.CountryService;
@@ -12,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class CountryController {
 
     @Autowired
@@ -41,6 +40,7 @@ public class CountryController {
     private List<Country> countries = new ArrayList<>();
 
     @GetMapping("/soccer/countries")
+    //@CrossOrigin(origins = "http://localhost:8080")
     public List<Country> getCountries(@RequestParam String continent) throws IOException {
         //test for validity of continent param???
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/countries?apikey=" + apikey + "&continent=" + continent);

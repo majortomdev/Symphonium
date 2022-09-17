@@ -2,6 +2,8 @@ package com.majortomdev.SymphBE.service;
 
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,6 +31,7 @@ public class Util {
                 response.append(dataLine);
             }
             in.close();
+            conn.disconnect();
             return response.toString();
         }
     }
@@ -37,4 +40,5 @@ public class Util {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.parse(strDate);
     }
+
 }
