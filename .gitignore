@@ -35,7 +35,7 @@ build/
 .vscode/
 
 
-
+/StatsForKeepers
 
 # compiled output
 /dist
