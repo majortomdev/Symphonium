@@ -6,6 +6,9 @@ public class Country {
     private String countryCode;
     private String continent;
 
+    public Country() {
+    }
+
     public Country(int countryId, String name, String countryCode, String continent) {
         this.countryId = countryId;
         this.name = name;

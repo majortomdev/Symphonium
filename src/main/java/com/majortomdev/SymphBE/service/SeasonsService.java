@@ -1,14 +1,17 @@
 package com.majortomdev.SymphBE.service;
 
-import com.majortomdev.SymphBE.models.Season;
+import com.majortomdev.SymphBE.models.*;
+import com.majortomdev.SymphBE.controllers.CountryController;
 
-import com.majortomdev.SymphBE.models.SeasonStats;
-import com.majortomdev.SymphBE.models.Standing;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
 
@@ -17,6 +20,8 @@ public class SeasonsService {
 
     @Autowired
     private Util util;
+    private CountryController countryController;
+    private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
 
     public List<Season> getSeasonsForLeague(String jsonSeasonsString) throws ParseException {
         List<Season> seasons = new ArrayList<>();
@@ -103,5 +108,34 @@ public class SeasonsService {
                 (int)losses,(int)goalDiff,(int)goalsFor,(int)goalsAgainst);
     }
 
+    public List<TeamResult> getSeasonOverlookDisplay(String jsonStandings) throws IOException {
+        List<TeamResult> standings = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonStandings);
+        JSONObject dataObj = jsonObj.getJSONObject("data");
+        int seasonId = (int)dataObj.get("season_id");
+        int leagueId = (int)dataObj.get("league_id");
+        JSONArray standingsArray = dataObj.getJSONArray("standings");
+        for(int i=0; i<standingsArray.length(); i++){
+            JSONObject standingObj = standingsArray.getJSONObject(i);
+            String name = getTeamNameFromId((int)standingObj.get("team_id"));
+            int position = (int) standingObj.get("position");
+            int points = (int) standingObj.get("points");
+            JSONObject stats = standingObj.getJSONObject("overall");
+            int wins = (int)stats.get("won");
+            int losses = (int)stats.get("lost");
+            int draws = (int)stats.get("draw");
+            int goalDiff = (int)stats.get("goals_diff");
+            standings.add(new TeamResult(seasonId,leagueId,name,position,points,wins,losses,draws,goalDiff));
+        }
+
+        return standings;
+    }
+
+    private String getTeamNameFromId(@PathVariable int teamId) throws IOException {
+        final String uri = "http://localhost:8080/soccer/team/" + teamId;
+        RestTemplate restTemplate = new RestTemplate();
+        Team bTeam = restTemplate.getForObject(uri, Team.class);
+        return bTeam.getName();
+    }
 
 }

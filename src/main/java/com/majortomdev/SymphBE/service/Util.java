@@ -19,6 +19,7 @@ public class Util {
     public String urlToString(URL url) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        //System.setProperty("http.keepAlive", "false"); //vain attempts to fix the problem with 1 request only
         conn.connect();
         int responseCode = conn.getResponseCode();
         if(responseCode !=200){
@@ -31,7 +32,7 @@ public class Util {
                 response.append(dataLine);
             }
             in.close();
-            conn.disconnect();
+            //conn.disconnect();
             return response.toString();
         }
     }

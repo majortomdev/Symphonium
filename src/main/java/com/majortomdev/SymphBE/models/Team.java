@@ -9,6 +9,10 @@ public class Team {
     private String logo;
     private Country teamCountry;
 
+    public Team() {
+
+    }
+
     public Team(int teamId, String name, String shortCode, String commonName, String logo, Country country) {
         this.teamId = teamId;
         this.name = name;
