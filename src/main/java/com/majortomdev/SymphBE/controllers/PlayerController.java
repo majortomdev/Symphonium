@@ -53,4 +53,12 @@ public class PlayerController {
         return goalsService.getSeasonGoals(goalsScoredString);
     }
 
+    @GetMapping("/soccer/topscorersbyteam")
+    public List<PlrScoreRecord> getTeamGoalsScoredForSeason(@RequestParam int seasonId,
+                                                            @RequestParam int teamId) throws IOException{
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey="+apikey+"&season_id="+seasonId+"&teamId="+teamId);
+        String goalsScoredString = util.urlToString(url);
+        return goalsService.getSeasonTeamGoals(goalsScoredString,teamId);
+    }
+
 }

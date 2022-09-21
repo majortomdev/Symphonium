@@ -23,6 +23,20 @@ public class GoalsService {
         return players;
     }
 
+    public List<PlrScoreRecord> getSeasonTeamGoals(String jsonSeasonGoals, int teamId){
+        List<PlrScoreRecord> players = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonSeasonGoals);
+        JSONArray goalsArray = jsonObj.getJSONArray("data");
+        for(int i=0; i<goalsArray.length(); i++){
+            JSONObject jsonPlayerGoals = goalsArray.getJSONObject(i);
+            JSONObject innerTeamObj = jsonPlayerGoals.getJSONObject("team");
+            if(teamId == (int)innerTeamObj.get("team_id")) {
+                players.add(createPlayerSeasonGoalsInst(jsonPlayerGoals));
+            }
+        }
+        return players;
+    }
+
     private PlrScoreRecord createPlayerSeasonGoalsInst(JSONObject goalsScoredObj){
             Object ranking = goalsScoredObj.get("pos");
             JSONObject innerPlayer = goalsScoredObj.getJSONObject("player");
