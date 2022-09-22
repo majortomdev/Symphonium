@@ -46,6 +46,15 @@ public class PlayerController {
         return playerService.getPlayerById(playerString);
     }
 
+    @GetMapping("/soccer/playerswithclub")
+    public List<Player> getPlayersAtclub(@RequestParam int countryId,
+                                         @RequestParam int teamId) throws IOException, ParseException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/players?apikey="+apikey+"&countryId="+countryId);
+        String playerString = util.urlToString(url);
+
+        return playerService.getPlayersByClub(playerString, teamId);
+    }
+
     @GetMapping("/soccer/topscorers")
     public List<PlrScoreRecord> getPlayerGoalsScoredForSeason(@RequestParam int seasonId) throws IOException{
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey="+apikey+"&season_id="+seasonId);
@@ -54,9 +63,8 @@ public class PlayerController {
     }
 
     @GetMapping("/soccer/topscorersbyteam")
-    public List<PlrScoreRecord> getTeamGoalsScoredForSeason(@RequestParam int seasonId,
-                                                            @RequestParam int teamId) throws IOException{
-        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey="+apikey+"&season_id="+seasonId+"&teamId="+teamId);
+    public List<PlrScoreRecord> getTeamGoalsScoredForSeason(@RequestParam int seasonId, @RequestParam int teamId) throws IOException{
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/topscorers?apikey="+apikey+"&season_id="+seasonId);
         String goalsScoredString = util.urlToString(url);
         return goalsService.getSeasonTeamGoals(goalsScoredString,teamId);
     }

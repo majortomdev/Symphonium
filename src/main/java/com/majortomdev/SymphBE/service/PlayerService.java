@@ -38,6 +38,47 @@ public class PlayerService {
         return createPlayerInst(jsonPlayer);
     }
 
+
+    public List<Player> getPlayersByClub(String jsonPlayers, int teamId){
+        List<Player> playersAtClub = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonPlayers);
+
+
+
+//check if player id
+
+
+
+
+
+
+
+
+        JSONArray goalsArray = jsonObj.getJSONArray("data");
+        for(int i=0; i<goalsArray.length(); i++){
+            JSONObject jsonPlayerGoals = goalsArray.getJSONObject(i);
+            JSONObject innerTeamObj = jsonPlayerGoals.getJSONObject("team");
+            if(teamId == (int)innerTeamObj.get("team_id")) {
+                players.add(createPlayerSeasonGoalsInst(jsonPlayerGoals));
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
     private Player createPlayerInst(JSONObject jsonPlayer) throws ParseException {
         Object playerId = jsonPlayer.get("player_id");
         String firstName = (String)jsonPlayer.get("firstname");
