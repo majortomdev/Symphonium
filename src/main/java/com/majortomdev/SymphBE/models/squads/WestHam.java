@@ -6,6 +6,6 @@ public class WestHam {
 
     public int goalie = 2843;// fabianski
     public int[] defenders = {11033, 4411, 2847, 3130};//4     soucek, cornet, cresswell, dawson
-    public int[] midfielders = {3552, 3279, 2851};//3       benrahma,  fornals, lanzini
-    public int[] attackers = {3077, 2852};//3       bowen, antonio,
+    public int[] midfielders = {3552, 3279, 2849};//3       benrahma,  fornals, rice
+    public int[] attackers = {3077, 2852, 2851};//3       bowen, antonio,  lanzini
 }
