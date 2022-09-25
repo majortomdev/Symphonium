@@ -127,7 +127,6 @@ public class SeasonsService {
             int goalDiff = (int)stats.get("goals_diff");
             standings.add(new TeamResult(seasonId,leagueId,name,position,points,wins,losses,draws,goalDiff));
         }
-
         return standings;
     }
 
@@ -136,6 +135,30 @@ public class SeasonsService {
         RestTemplate restTemplate = new RestTemplate();
         Team bTeam = restTemplate.getForObject(uri, Team.class);
         return bTeam.getName();
+    }
+
+    public List<Match> getRequestedMatches(String jsonMatches){
+        List<Match> matches = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonMatches);
+        JSONArray matchesArray = jsonObj.getJSONArray("data");
+        for (int i=0; i<matchesArray.length(); i++){
+            JSONObject matchObj = matchesArray.getJSONObject(i);
+            int status = (int)matchObj.get("status_code");
+            if(status!=3)continue;
+            int matchId = (int)matchObj.get("match_id");
+            JSONObject rd = matchObj.getJSONObject("round");
+            int round = Integer.parseInt(rd.getString("name"));
+            JSONObject home = matchObj.getJSONObject("home_team");
+            int homeId = (int)home.get("team_id");
+            JSONObject away = matchObj.getJSONObject("away_team");
+            int awayId = (int)away.get("team_id");
+            JSONObject scores = matchObj.getJSONObject("stats");
+            String score = (String)scores.getString("ft_score");
+            String halfTimeScore = (String)scores.getString("ht_score");
+
+            matches.add(new Match(matchId,round,homeId,awayId,score,halfTimeScore));
+        }
+        return matches;
     }
 
 }

@@ -1,9 +1,6 @@
 package com.majortomdev.SymphBE.controllers;
 
-import com.majortomdev.SymphBE.models.League;
-import com.majortomdev.SymphBE.models.Season;
-import com.majortomdev.SymphBE.models.Standing;
-import com.majortomdev.SymphBE.models.TeamResult;
+import com.majortomdev.SymphBE.models.*;
 import com.majortomdev.SymphBE.service.LeagueService;
 import com.majortomdev.SymphBE.service.SeasonsService;
 import com.majortomdev.SymphBE.service.Util;
@@ -75,5 +72,26 @@ public class LeagueController {
         List<TeamResult> seasonsStandings = seasonsService.getSeasonOverlookDisplay(teamStandings);
         return seasonsStandings;
     }
+
+//    @GetMapping("/soccer/matches")
+//    public List<Match> getMatchesForSeason(@RequestParam int seasonId,
+//                                        @RequestParam(required = false) Integer round,
+//                                        @RequestParam(required = false) String dateFrom,
+//                                        @RequestParam(required = false) String dateTo) throws IOException {
+//        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/matches?apikey="+apikey+"&season_id="+seasonId+"&date_from="
+//                +dateFrom+"&date_to="+dateTo);
+//        String matchesPerReq = util.urlToString(url);
+//        return seasonsService.getRequestedMatches(matchesPerReq);
+//    }
+
+
+    @GetMapping("/soccer/matches")
+    public List<Match> getMatchesForSeason(@RequestParam int seasonId) throws IOException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/matches?apikey="+apikey+"&season_id="+seasonId);
+        String matchesPerReq = util.urlToString(url);
+        return seasonsService.getRequestedMatches(matchesPerReq);
+    }
+
+
 
 }
