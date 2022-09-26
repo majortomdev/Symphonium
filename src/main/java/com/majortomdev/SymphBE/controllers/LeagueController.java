@@ -88,10 +88,17 @@ public class LeagueController {
     @GetMapping("/soccer/matches")
     public List<Match> getMatchesForSeason(@RequestParam int seasonId) throws IOException {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/matches?apikey="+apikey+"&season_id="+seasonId);
-        String matchesPerReq = util.urlToString(url);
-        return seasonsService.getRequestedMatches(matchesPerReq);
+        String matchesBySeason = util.urlToString(url);
+        return seasonsService.getRequestedMatches(matchesBySeason);
     }
 
+    @GetMapping("/soccer/matches/{teamId}")
+    public List<Match> getSeasonMatchesByTeam(@PathVariable (value = "teamId")int teamId,
+                                              @RequestParam int seasonId) throws IOException {
+        URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/matches?apikey="+apikey+"&season_id="+seasonId);
+        String matchesBySeason = util.urlToString(url);
+        return seasonsService.getMatchesByTeam(matchesBySeason, teamId);
 
+    }
 
 }

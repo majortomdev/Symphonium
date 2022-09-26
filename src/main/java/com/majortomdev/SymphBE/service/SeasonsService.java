@@ -161,4 +161,32 @@ public class SeasonsService {
         return matches;
     }
 
+    public List<Match> getMatchesByTeam(String jsonMatches, int team) {
+        List<Match> matches = new ArrayList<>();
+        JSONObject jsonObj = new JSONObject(jsonMatches);
+        JSONArray matchesArray = jsonObj.getJSONArray("data");
+        for (int i=0; i<matchesArray.length(); i++){
+            JSONObject matchObj = matchesArray.getJSONObject(i);
+            int status = (int)matchObj.get("status_code");
+            if(status!=3)continue;
+            JSONObject home = matchObj.getJSONObject("home_team");
+            int homeId = (int)home.get("team_id");
+            JSONObject away = matchObj.getJSONObject("away_team");
+            int awayId = (int)away.get("team_id");
+            if(homeId!=team && awayId!=team){
+                continue;
+            }
+            int matchId = (int)matchObj.get("match_id");
+            JSONObject rd = matchObj.getJSONObject("round");
+            int round = Integer.parseInt(rd.getString("name"));
+            JSONObject scores = matchObj.getJSONObject("stats");
+            String score = (String)scores.getString("ft_score");
+            String halfTimeScore = (String)scores.getString("ht_score");
+
+            matches.add(new Match(matchId,round,homeId,awayId,score,halfTimeScore));
+        }
+        return matches;
+
+    }
+
 }
