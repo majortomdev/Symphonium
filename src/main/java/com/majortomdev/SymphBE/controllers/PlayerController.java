@@ -25,7 +25,8 @@ public class PlayerController {
     @Autowired
     private Util util;
 
-    private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
+    //private final String apikey = "3a175000-2890-11ed-a522-0949cf027ab6";
+    private final String apikey = "0c9e5730-432c-11ed-89c2-457c4e0606d9";
 
     @GetMapping("/soccer/players")
     public List<Player> getPlayersByCountry(@RequestParam int countryId,
@@ -38,7 +39,6 @@ public class PlayerController {
         String playersAsString = util.urlToString(url);
         return playerService.getPlayersByCountry(playersAsString);
     }
-
     @GetMapping("/soccer/players/{id}")
     public Player getPlayerById(@PathVariable(value = "id") int id) throws IOException, ParseException {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/players/"+id+"?apikey="+apikey);

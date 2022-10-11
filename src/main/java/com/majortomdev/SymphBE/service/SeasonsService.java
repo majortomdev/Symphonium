@@ -52,6 +52,8 @@ public class SeasonsService {
         Object leagueId = jsonSeason.get("league_id");
 
         Date startDate = util.createShortDateObjFromString((String) jsonSeason.get("start_date"));
+//        System.out.println("fffffffffffffffffffffffffffffff" + seasonId);
+//        System.out.println("ssssssssssssssssssssssssssss        "+startDate);
         Date endDate = util.createShortDateObjFromString((String) jsonSeason.get("end_date"));
 
         return new Season((int)seasonId, name, isCurrent,(int)countryId,

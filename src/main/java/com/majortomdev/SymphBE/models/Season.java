@@ -19,6 +19,8 @@ public class Season {
         this.isCurrent = isCurrent;
         this.countryId = countryId;
         this.leagueId = leagueId;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
         this.startDate = startDate;
         this.endDate = endDate;
     }

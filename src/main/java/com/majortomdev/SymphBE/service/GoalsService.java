@@ -41,7 +41,11 @@ public class GoalsService {
     private PlrScoreRecord createPlayerSeasonGoalsInst(JSONObject goalsScoredObj){
             Object ranking = goalsScoredObj.get("pos");
             JSONObject innerPlayer = goalsScoredObj.getJSONObject("player");
-            Object playerId = innerPlayer.get("player_id");
+            Object plrId = innerPlayer.get("player_id");
+            int playerId;
+            if(!JSONObject.NULL.equals(plrId)){
+                playerId = (int) plrId;
+            }else playerId = -1;
             JSONObject innerTeam = goalsScoredObj.getJSONObject("team");
             Object teamId = innerTeam.get("team_id");
             Object leagueId = goalsScoredObj.get("league_id");
@@ -57,7 +61,11 @@ public class GoalsService {
             Object goalsHome = innerGoals.get("home");
             Object goalsAway = innerGoals.get("away");
 
-    return new PlrScoreRecord((int) ranking, (int) playerId, (int) teamId, (int) leagueId, (int) seasonId,
+    return new PlrScoreRecord((int) ranking,
+            (int) playerId,
+            (int) teamId,
+            (int) leagueId,
+            (int) seasonId,
             (int) matchesPlayed, (int) minutesPlayed, substitutedIn, (int) goalsHome, (int) goalsAway);
     }
 }
