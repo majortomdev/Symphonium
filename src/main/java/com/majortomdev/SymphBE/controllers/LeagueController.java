@@ -51,6 +51,18 @@ public class LeagueController {
         return seasonsService.getSeasonsForLeague(seasonsString);
     }
 
+    @GetMapping("/soccer/getSeasonId")
+    public int getSeasonId(@RequestParam int leagueId, @RequestParam String year ) throws IOException, ParseException {
+        List<Season> seasonsForGivenLeague = getSeasons(leagueId);
+        for(Season season: seasonsForGivenLeague){
+            String name = season.getName();
+            if(name.equals(year)||name.substring(2).equals(year.substring(0,2))){
+                return season.getSeasonId();
+            }
+        }
+        return 0;
+    }
+
     @GetMapping("/soccer/season/{id}")
     public Season getSeasonById(@PathVariable(value = "id") int id) throws IOException, ParseException {
         URL url = new URL("https://app.sportdataapi.com/api/v1/soccer/seasons/"+id+"?apikey="+apikey);

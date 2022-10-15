@@ -62,7 +62,7 @@ public class GoalsService {
             Object goalsAway = innerGoals.get("away");
 
     return new PlrScoreRecord((int) ranking,
-            (int) playerId,
+            playerId,
             (int) teamId,
             (int) leagueId,
             (int) seasonId,
